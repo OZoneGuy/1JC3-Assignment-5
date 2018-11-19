@@ -1,36 +1,50 @@
 {- Assignment 5
- - Name: TODO add full name
- - Date: TODO add of completion
+ - Name: Omar Alkersh
+ - Date: 19/11/18
  -}
 module Assign_5 where
 
 macid :: String
-macid = "TODO: put your mac id here"
+macid = "alkersho"
 
 
 {- -----------------------------------------------------------------
  - definiteIntegral
  - -----------------------------------------------------------------
- - Description: TODO add comments on definiteIntegral here
+ - Description: Uses the trapqezoid rule to estimate the area under
+ - function g from a to b
+ - Where xi1 and xi2 are the two trapqezoid hieghts and dX is the width
+ - multiply them to get the are under each sector then recurse and add all the
+ - sectors to estomate the area
+ - Link to Wikipedia page: https://en.wikipedia.org/wiki/Trapezoidal_rule
  -}
 definiteIntegral :: Double -> Double -> (Double -> Double) -> Integer -> Double
-definiteIntegral a b g n = error "TODO: implement definiteIntegral"
+definiteIntegral a b g n | n >= 0  = let
+                          dX = (b-a)/fromIntegral n
+                          xi1 = a+dX*fromIntegral(n-1)
+                          xi2 = a+dX*fromIntegral n
+                          h = (g xi1 + g xi2)/2
+                          in if n == 1
+                            then h*dX
+                            else definiteIntegral a b g (n-1) + h*dX
 
 {- -----------------------------------------------------------------
  - funH
  - -----------------------------------------------------------------
- - Description: TODO add comments on funH here
+ - Description: Estimates the area between x^(1/n) and x^n using the definiteIntegral function from 0 to 1
  -}
 funH :: Integer -> Double
-funH n = error "TODO: implement funH"
+funH n | n > 0 = let
+  f x = x**(1/fromIntegral n) - x**fromIntegral n
+  in abs(definiteIntegral 0 1 f n)
 
 {- -----------------------------------------------------------------
  - funK
  - -----------------------------------------------------------------
- - Description: TODO add comments on funK here
+ - Description: Estimate the are between n^x and the x-axis using the definiteIntegral function from -1 to 1
  -}
 funK :: Double -> Double
-funK n = error "TODO: implement funK"
+funK n | n > 0 = abs(definiteIntegral (-1) 1 (\x->n**x) 5)
 
 {- -----------------------------------------------------------------
  - Test Cases
@@ -45,4 +59,3 @@ funK n = error "TODO: implement funK"
  - -----------------------------------------------------------------
  - TODO: add test cases
  -}
-
